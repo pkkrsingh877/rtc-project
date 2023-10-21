@@ -12,7 +12,7 @@
 <body>
     <section class="chatbox box">
         <article class="display">
-
+            <div class="feedback"></div>
         </article>
         <article id="form">
             <input type="text" placeholder="username" class="input username" required>
@@ -27,8 +27,8 @@
 
         .chatbox {
             padding: 2rem;
-            min-width: 10rem;
-            min-height: 10rem;
+            width: 768px;
+            height: 500px;
 
             display: grid;
             grid-template-rows: 9fr 1fr;
@@ -43,15 +43,23 @@
     <script>
         const button = document.getElementById('button');
         const display = document.querySelector(".display");
+        const feedback = document.querySelector('.feedback');
         const socket = new io("http://localhost:8000");
 
         // Listen for the 'chat' event
-        socket.on('chat', async (data) => {
+        socket.on('chat', (data) => {
             // Handle the received message here
             const msg = data.data;
             const message = document.createElement('div');
-            message.innerHTML = `<strong>${msg['username']}</strong>: ${msg.message} </hr>`;
+            message.innerHTML = `<strong>${msg.username}</strong>: ${msg.message} </hr>`;
             display.appendChild(message);
+        });
+
+        // Listen for the 'typing' event
+        socket.on('typing', (data) => {
+            // Handle the received message here
+            console.log(data);
+            feedback.innerHTML = `<strong>${data['username']}</strong> is typing... </hr>`;
         });
 
         button.addEventListener('click', async (e) => {
@@ -71,6 +79,12 @@
             };
             // Emit the request to the server
             socket.emit('chat', request);
+        });
+
+        const message = document.querySelector(".message");
+        message.addEventListener('keydown', (e) => {
+            const username = document.querySelector('.username').value;
+            socket.emit('typing', {username});
         });
     </script>
 </body>

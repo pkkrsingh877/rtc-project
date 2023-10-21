@@ -25,6 +25,11 @@ io.on('connection', (socket) => {
         io.sockets.emit('chat', message);
     });
 
+    socket.on('typing', (message) => {
+        console.log("someone is typing");
+        socket.broadcast.emit('typing', message);
+    });
+    
     socket.on('disconnect', () => {
         console.log('user disconnected');
     });
