@@ -14,7 +14,7 @@
         <article class="display">
 
         </article>
-        <article action="/chat" id="form" method="post">
+        <article id="form">
             <input type="text" placeholder="username" class="input username" required>
             <input type="text" placeholder="message" class="input message" required>
             <button type="submit" id="button" class="button is-primary">Send</button>
@@ -45,9 +45,18 @@
         const display = document.querySelector(".display");
         const socket = new io("http://localhost:8000");
 
+        // Listen for the 'chat' event
+        socket.on('chat', async (data) => {
+            // Handle the received message here
+            const msg = data.data;
+            const message = document.createElement('div');
+            message.innerHTML = `<strong>${msg['username']}</strong>: ${msg.message} </hr>`;
+            display.appendChild(message);
+        });
+
         button.addEventListener('click', async (e) => {
             e.preventDefault();
-            
+
             const message = document.querySelector(".message").value;
             const username = document.querySelector('.username').value;
             // Create a request object
