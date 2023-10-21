@@ -9,7 +9,7 @@
 </head>
 
 <body>
-    <section class="chatbox">
+    <section class="chatbox box">
         <article class="display">
             alphaX is typing a message...
         </article>
@@ -24,10 +24,8 @@
         }
 
         .chatbox {
-            border: 0.01rem solid rgb(141, 136, 136);
-            border-radius: 1rem;
             padding: 2rem;
-            min-width: 400px;
+            min-width: 100vw;
             max-width: 768px;
             min-height: 400px;
 
@@ -45,7 +43,7 @@
         const button = document.getElementById('button');
         const message = document.querySelector(".message").textContent;
 
-        form.addEventListener(async (e) => {
+        form.addEventListener('submit', async (e) => {
             e.preventDefault();
             // code for how the message is sent
             const response = await fetch(url, {
@@ -58,7 +56,7 @@
                 },
                 redirect: "follow",
                 referrerPolicy: "no-referrer",
-                body: JSON.stringify({message: message})
+                body: JSON.stringify({ message: message })
             });
 
             const data = await response.json();
