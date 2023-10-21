@@ -1,7 +1,21 @@
 const express = require('express');
 const app = express();
 const path = require('path');
+const http = require('http');
 const ejsMate = require('ejs-mate');
+const socket = require('socket.io');
+
+// static files 
+app.use(express.static('public'));
+
+// Setting up socket.io
+const server = http.createServer(app);
+const { Server } = require("socket.io");
+const io = new Server(server);
+
+io.on('connection', (socket) => {
+    console.log('a new user connected:', socket.id);
+});
 
 //setting up ejs
 app.engine('ejs', ejsMate);
@@ -16,7 +30,7 @@ app.get('/chatroom', (req, res) => {
     res.render('chatroom/chat');
 });
 
-app.listen(8000, () => {
+server.listen(8000, () => {
     console.log("The app is listening at port 8000.");
 });
 

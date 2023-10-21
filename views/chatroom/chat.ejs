@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Chat App</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/socket.io-client@4.6.0/dist/socket.io.min.js"></script>
 </head>
 
 <body>
@@ -61,6 +62,19 @@
 
             const data = await response.json();
         });
+
+        const socket = new io();
+        // Create a request object
+        const request = {
+            // The name of the event to emit
+            event: 'chat',
+            // An optional JSON object containing data
+            data: {
+                message: message,
+            },
+        };
+        // Emit the request to the server
+        socket.emit(request);
 
     </script>
 </body>
