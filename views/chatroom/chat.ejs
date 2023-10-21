@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat App</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+</head>
+
+<body>
+    <section class="chatbox">
+        <article class="display">
+            alphaX is typing a message...
+        </article>
+        <form action="/chat" id="form" method="post">
+            <input type="text" placeholder="Message" class="input message" required>
+            <button type="submit" id="button" class="button is-primary">Send</button>
+        </form>
+    </section>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        .chatbox {
+            border: 0.01rem solid rgb(141, 136, 136);
+            border-radius: 1rem;
+            padding: 2rem;
+            min-width: 400px;
+            max-width: 768px;
+            min-height: 400px;
+
+            display: grid;
+            grid-template-rows: 9fr 1fr;
+        }
+
+        form {
+            display: grid;
+            grid-template-columns: 9fr 1fr;
+        }
+    </style>
+    <script>
+        const form = document.querySelector('#form');
+        const button = document.getElementById('button');
+        const message = document.querySelector(".message").textContent;
+
+        form.addEventListener(async (e) => {
+            e.preventDefault();
+            // code for how the message is sent
+            const response = await fetch(url, {
+                method: "POST",
+                mode: "cors",
+                cache: "no-cache",
+                credentials: "same-origin",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                redirect: "follow",
+                referrerPolicy: "no-referrer",
+                body: JSON.stringify({message: message})
+            });
+
+            const data = await response.json();
+        });
+
+    </script>
+</body>
+
+</html>

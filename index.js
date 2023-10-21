@@ -12,6 +12,10 @@ app.get('/', (req, res) => {
     res.render('index.ejs');
 });
 
+app.get('/chatroom', (req, res) => {
+    res.render('chatroom/chat');
+});
+
 app.listen(8000, () => {
     console.log("The app is listening at port 8000.");
 });
