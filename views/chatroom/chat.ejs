@@ -12,12 +12,13 @@
 <body>
     <section class="chatbox box">
         <article class="display">
-            alphaX is typing a message...
+
         </article>
-        <form action="/chat" id="form" method="post">
-            <input type="text" placeholder="Message" class="input message" required>
+        <article action="/chat" id="form" method="post">
+            <input type="text" placeholder="username" class="input username" required>
+            <input type="text" placeholder="message" class="input message" required>
             <button type="submit" id="button" class="button is-primary">Send</button>
-        </form>
+        </article>
     </section>
     <style>
         * {
@@ -26,56 +27,42 @@
 
         .chatbox {
             padding: 2rem;
-            min-width: 100vw;
-            max-width: 768px;
-            min-height: 400px;
+            min-width: 10rem;
+            min-height: 10rem;
 
             display: grid;
             grid-template-rows: 9fr 1fr;
         }
 
-        form {
+        #form {
             display: grid;
-            grid-template-columns: 9fr 1fr;
+            grid-template-columns: 1fr;
+            grid-template-rows: 1fr 1fr 1fr;
         }
     </style>
     <script>
-        const form = document.querySelector('#form');
         const button = document.getElementById('button');
-        const message = document.querySelector(".message").textContent;
+        const display = document.querySelector(".display");
+        const socket = new io("http://localhost:8000");
 
-        form.addEventListener('submit', async (e) => {
+        button.addEventListener('click', async (e) => {
             e.preventDefault();
-            // code for how the message is sent
-            const response = await fetch(url, {
-                method: "POST",
-                mode: "cors",
-                cache: "no-cache",
-                credentials: "same-origin",
-                headers: {
-                    "Content-Type": "application/json",
+            
+            const message = document.querySelector(".message").value;
+            const username = document.querySelector('.username').value;
+            // Create a request object
+            const request = {
+                // The name of the event to emit
+                event: 'chat',
+                // An optional JSON object containing data
+                data: {
+                    username: username,
+                    message: message,
                 },
-                redirect: "follow",
-                referrerPolicy: "no-referrer",
-                body: JSON.stringify({ message: message })
-            });
-
-            const data = await response.json();
+            };
+            // Emit the request to the server
+            socket.emit('chat', request);
         });
-
-        const socket = new io();
-        // Create a request object
-        const request = {
-            // The name of the event to emit
-            event: 'chat',
-            // An optional JSON object containing data
-            data: {
-                message: message,
-            },
-        };
-        // Emit the request to the server
-        socket.emit(request);
-
     </script>
 </body>
 

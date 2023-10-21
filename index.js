@@ -15,6 +15,9 @@ const io = new Server(server);
 
 io.on('connection', (socket) => {
     console.log('a new user connected:', socket.id);
+    socket.on('chat', (message) => {
+        console.log(message);
+    });
 });
 
 //setting up ejs
