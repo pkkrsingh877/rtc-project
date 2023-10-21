@@ -10,9 +10,9 @@
 </head>
 
 <body>
+    <div class="feedback"></div>
     <section class="chatbox box">
         <article class="display">
-            <div class="feedback"></div>
         </article>
         <article id="form">
             <input type="text" placeholder="username" class="input username" required>
@@ -27,7 +27,7 @@
 
         .chatbox {
             padding: 2rem;
-            width: 768px;
+            width: 100vw;
 
             display: grid;
             grid-template-rows: 9fr 1fr;
@@ -40,12 +40,13 @@
         }
 
         .feedback{
-            color: grey;
+            background-color: orchid;
+            color: white;
+            min-height: 2rem;
+            position: sticky;
+            top: 0;
         }
 
-        strong{
-            color: orchid;
-        }
     </style>
     <script>
         const button = document.getElementById('button');
@@ -66,7 +67,7 @@
         socket.on('typing', (data) => {
             // Handle the received message here
             console.log(data);
-            feedback.innerHTML = `<strong>${data['username']}</strong> is typing... </hr>`;
+            feedback.innerHTML = `<b>${data['username']}</b> is typing... </hr>`;
         });
 
         button.addEventListener('click', async (e) => {
