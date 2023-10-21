@@ -39,6 +39,14 @@
             grid-template-columns: 1fr;
             grid-template-rows: 1fr 1fr 1fr;
         }
+
+        .feedback{
+            color: grey;
+        }
+
+        strong{
+            color: orchid;
+        }
     </style>
     <script>
         const button = document.getElementById('button');
@@ -49,9 +57,9 @@
         // Listen for the 'chat' event
         socket.on('chat', (data) => {
             // Handle the received message here
-            const msg = data.data;
+            feedback.innerHTML = '';
             const message = document.createElement('div');
-            message.innerHTML = `<strong>${msg.username}</strong>: ${msg.message} </hr>`;
+            message.innerHTML = `<strong>${data.username}</strong>: ${data.message} <hr/>`;
             display.appendChild(message);
         });
 
@@ -67,20 +75,12 @@
 
             const message = document.querySelector(".message").value;
             const username = document.querySelector('.username').value;
-            // Create a request object
-            const request = {
-                // The name of the event to emit
-                event: 'chat',
-                // An optional JSON object containing data
-                data: {
-                    username: username,
-                    message: message,
-                },
-            };
+
             // Emit the request to the server
-            socket.emit('chat', request);
+            socket.emit('chat', { username, message });
         });
 
+        //letting the server know that someone pressed a key
         const message = document.querySelector(".message");
         message.addEventListener('keydown', (e) => {
             const username = document.querySelector('.username').value;
