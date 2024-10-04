@@ -22,6 +22,9 @@
     </section>
     <style>
         * {
+            margin: 0;
+            padding: 0;
+            border: 0;
             box-sizing: border-box;
         }
 
@@ -29,24 +32,27 @@
             padding: 2rem;
             width: 100vw;
 
-            display: grid;
-            grid-template-rows: 9fr 1fr;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
         }
 
         #form {
-            display: grid;
-            grid-template-columns: 1fr;
-            grid-template-rows: 1fr 1fr 1fr;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            width: 70%;
         }
 
-        .feedback{
+        .feedback {
             background-color: orchid;
             color: white;
             min-height: 2rem;
             position: sticky;
             top: 0;
         }
-
     </style>
     <script>
         const button = document.getElementById('button');
@@ -82,9 +88,9 @@
 
         //letting the server know that someone pressed a key
         const message = document.querySelector(".message");
-        message.addEventListener('keydown', (e) => {
+        message.addEventListener('keypress', (e) => {
             const username = document.querySelector('.username').value;
-            socket.emit('typing', {username});
+            socket.emit('typing', { username });
         });
     </script>
 </body>
